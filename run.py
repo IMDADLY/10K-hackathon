@@ -6,6 +6,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
+ox.settings.use_cache = False  # disables cache
+ox.settings.log_console = True
+
+
 # -----------------------------
 # 1. Set place and filenames
 # -----------------------------
