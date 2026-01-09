@@ -142,24 +142,3 @@ print("Top 50 high-risk intersections saved to kollam_top50_high_risk.csv")
 intersections.to_csv("Kollam_intersection_risk.csv", index=False)
 print("CSV saved: Kollam_intersection_risk.csv")
 
-# --- Interactive map generation ---
-import folium
-
-# Center map roughly on Kollam
-m = folium.Map(location=[8.9, 76.6], zoom_start=12)
-
-# Add all intersections
-for idx, row in intersections.iterrows():
-    folium.CircleMarker(
-        location=[row['y'], row['x']],  # latitude, longitude
-        radius=3 + row['risk_score']*5,  # size proportional to risk_score
-        color='red' if row['risk_level'] == 'High' else 
-              'orange' if row['risk_level'] == 'Medium' else 'green',
-        fill=True,
-        fill_opacity=0.7,
-        popup=f"OSMID: {row['osmid']}\nRisk Score: {row['risk_score']}"
-    ).add_to(m)
-
-# Save as HTML
-m.save("Kollam_intersections_map.html")
-print("Interactive map saved: Kollam_intersections_map.html")
