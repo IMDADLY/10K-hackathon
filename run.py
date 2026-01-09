@@ -134,9 +134,9 @@ print("CSV and GeoJSON exported.")
 # -----------------------------
 # 11. Top 50 High-Risk Intersections
 # -----------------------------
-top50 = intersections.sort_values(by='risk_score', ascending=False).head(50)
-top50[['osmid','x','y','risk_score','risk_level']].to_csv("kollam_top50_high_risk.csv", index=False)
-print("Top 50 high-risk intersections saved to kollam_top50_high_risk.csv")
+top500 = intersections.sort_values(by='risk_score', ascending=False).head(500)
+top500[['osmid','x','y','risk_score','risk_level']].to_csv("kollam_top500_high_risk.csv", index=False)
+print("Top 500 high-risk intersections saved to kollam_top500_high_risk.csv")
 
 # Save the risk CSV
 intersections.to_csv("Kollam_intersection_risk.csv", index=False)
