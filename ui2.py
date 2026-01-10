@@ -11,8 +11,8 @@ st.set_page_config(layout="wide")
 # ------------------ DATA ------------------
 @st.cache_data
 def load_data():
-    df = pd.read_csv("kollam_top500_high_risk.csv")
-    return df.head(100)
+    df = pd.read_csv("kollam_top500_updated_risk.csv")
+    return df.head(200)
 
 if "nodes_df" not in st.session_state:
     st.session_state.nodes_df = load_data()
@@ -52,16 +52,25 @@ if user_location:
 @st.cache_data
 def create_base_map(df):
     m = folium.Map(location=[8.8932, 76.6141], zoom_start=10)
-
     for _, node in df.iterrows():
+        if node["combined_score"] > 0.5:
+            color = "Red"
+            risk = "High"
+        elif node["combined_score"] > 0.4:
+            color = "Yellow"
+            risk = "Medium"
+        else:
+            color = "Green"
+            risk = "Low"
+
         folium.CircleMarker(
             location=[node["y"], node["x"]],
             radius=4,
-            color=colors[node["risk_level"]],
+            color=color,
             fill=True,
-            fill_color=colors[node["risk_level"]],
+            fill_color=color,
             fill_opacity=0.5,
-            popup=f'{node["risk_level"]} Risk'
+            popup=f"{risk} Risk.\n{round(node["combined_score"], 2)}"
         ).add_to(m)
 
     return m
@@ -94,8 +103,6 @@ with col2:
 
 # ------------------ CONTROLS ------------------
 with col1:
-    st.selectbox("Select Location", ["Kollam"])
-    rain = st.slider("Rain factor", 0.0, 1.0)
 
     # Store clicked location
     if map_data and map_data.get("last_clicked"):
