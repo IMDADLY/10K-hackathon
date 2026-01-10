@@ -145,4 +145,3 @@ print("Top 500 high-risk intersections saved to kollam_top500_high_risk.csv")
 # Save the risk CSV
 intersections.to_csv("Kollam_intersection_risk.csv", index=False)
 print("CSV saved: Kollam_intersection_risk.csv")
-
